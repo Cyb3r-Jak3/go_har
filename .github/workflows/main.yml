@@ -1,4 +1,10 @@
-name: Test Go
+name: Go
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   Test:
@@ -7,5 +13,11 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: '1.14'
-      - run: go get -u golang.org/x/lint/golint
-      - run: go test --cover
+      - name: Link
+        run: |
+          go get -u golang.org/x/lint/golint
+          golint .
+      - name: Build
+        run: go build -v .
+      - name: Test
+        run: go test --cover .
