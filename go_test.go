@@ -1,24 +1,24 @@
-package main
+package har
 
 import (
 	"testing"
 )
 
 func TestMain(t *testing.T) {
-	har := make_har("test.har")
+	har := parseHar("examples/FireFox.har")
 	if har.Version != "1.2" {
-		t.Errorf("Invalid version. Wanted version 1.2 got %v", har.Version)
+		t.Errorf("Invalid version. Wanted version 1.2 got %s", har.Version)
 	}
 	if har.Browser.Name != "Firefox" && har.Browser.Name == har.Creator.Name {
-		t.Errorf("Invalid browser name. Wanted FireFox got %v", har.Browser.Name)
+		t.Errorf("Invalid browser name. Wanted FireFox got %s", har.Browser.Name)
 	}
 	if har.Browser.Version != "79.0" && har.Browser.Version == har.Creator.Version {
-		t.Errorf("Invalid browser version. Wanted FireFox got %v", har.Browser.Version)
+		t.Errorf("Invalid browser version. Wanted FireFox got %s", har.Browser.Version)
 	}
 }
 
 func TestEntry(t *testing.T) {
-	entry := make_har("test.har").Entries[0]
+	entry := parseHar("examples/FireFox.har").Entries[0]
 	if entry.IP != "104.27.153.17" {
 		t.Errorf("Expected IP of '104.27.153.17'. Got %s", entry.IP)
 	}
@@ -40,7 +40,7 @@ func TestEntry(t *testing.T) {
 }
 
 func TestTiming(t *testing.T) {
-	timings := make_har("test.har").Entries[0].Timing
+	timings := parseHar("examples/FireFox.har").Entries[0].Timing
 	if timings.Blocked != 1 {
 		t.Errorf("Expected Timing blocked of 1. Got %d", timings.Blocked)
 	}
@@ -66,7 +66,7 @@ func TestTiming(t *testing.T) {
 }
 
 func TestRequest(t *testing.T) {
-	request := make_har("test.har").Entries[0].Request
+	request := parseHar("examples/FireFox.har").Entries[0].Request
 
 	if request.URL != "https://www.jwhite.network/" {
 		t.Errorf("Invalid URL. Wanted 'https://www.jwhite.network/' got %v", request.URL)
@@ -95,7 +95,7 @@ func TestRequest(t *testing.T) {
 }
 
 func TestResponse(t *testing.T) {
-	response := make_har("test.har").Entries[0].Response
+	response := parseHar("examples/FireFox.har").Entries[0].Response
 
 	if response.Status != 200 {
 		t.Errorf("Expected Response 200. Got %d", response.Status)
@@ -126,5 +126,12 @@ func TestResponse(t *testing.T) {
 	}
 	if response.Content.Size != 18504 {
 		t.Errorf("Expect response size of 18504. Got %d", response.Content.Size)
+	}
+}
+
+func TestFailure(t *testing.T) {
+	har := parseHar("FireFox.har")
+	if har.Version == "1.2" {
+		t.Errorf("Invalid version. Wanted failure got %s", har.Version)
 	}
 }

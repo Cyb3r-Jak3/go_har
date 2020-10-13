@@ -1,4 +1,4 @@
-package main
+package har
 
 type HarFile struct {
 	Version string           `json:"version"`
