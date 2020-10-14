@@ -3,7 +3,6 @@ package har
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"os"
 )
 
@@ -19,17 +18,18 @@ func skiproot(jsonBlob []byte) json.RawMessage {
 	return nil
 }
 
-func parseHar(filename string) File {
+func parseHar(filename string) (File, error) {
+	harFile := File{}
 	file, err := os.Open(filename)
 	if err != nil {
-		log.Fatal(err)
+		return harFile, err
 	}
 	defer file.Close()
 	bytevalue, berr := ioutil.ReadAll(file)
 	if berr != nil {
-		log.Fatal(berr)
+		return harFile, berr
 	}
-	harFile := File{}
+
 	json.Unmarshal(skiproot(bytevalue), &harFile)
-	return harFile
+	return harFile, nil
 }
