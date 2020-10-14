@@ -22,5 +22,3 @@ jobs:
         run: go vet .
       - name: Test
         run: go test --cover .
-      - name: Build
-        run: go build -v .
