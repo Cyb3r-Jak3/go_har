@@ -1,41 +1,48 @@
 package har
 
-type HarFile struct {
-	Version string           `json:"version"`
-	Creator Creator_struct   `json:"creator"`
-	Browser Browser_struct   `json:"browser"`
-	Pages   []Page           `json:"pages"`
-	Entries []Entries_struct `json:"entries"`
+// File represents a HarFile with various properties
+type File struct {
+	Version string          `json:"version"`
+	Creator CreatorStruct   `json:"creator"`
+	Browser BrowserStruct   `json:"browser"`
+	Pages   []Page          `json:"pages"`
+	Entries []EntriesStruct `json:"entries"`
 }
 
-type Creator_struct struct {
+// CreatorStruct represents a the section for HarFile creator
+type CreatorStruct struct {
 	Name    string `json:"name"`
 	Version string `json:"version"`
 }
 
-type Browser_struct struct {
+// BrowserStruct represents a the section for HarFile browser
+type BrowserStruct struct {
 	Name    string `json:"name"`
 	Version string `json:"version"`
 }
 
+// Page represents a page in a HarFile
 type Page struct {
-	StartTime   string             `json:"startedDateTime"`
-	ID          string             `json:"id"`
-	Title       string             `json:"title"`
-	PagerTiming PageTimings_struct `json:"pageTimings"`
+	StartTime   string            `json:"startedDateTime"`
+	ID          string            `json:"id"`
+	Title       string            `json:"title"`
+	PagerTiming PageTimingsStruct `json:"pageTimings"`
 }
 
-type PageTimings_struct struct {
+// PageTimingsStruct represents the timings to load a page
+type PageTimingsStruct struct {
 	ContentLoad uint16 `json:"onContentLoad"`
 	Load        uint16 `json:"onLoad"`
 }
 
+// NameValuePair represents a named value pair. Used for Cookies and Headers
 type NameValuePair struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
 }
 
-type Request_struct struct {
+// RequestStruct represents a request in an Entry
+type RequestStruct struct {
 	BodySize    uint16          `json:"bodySize"`
 	Cookies     []NameValuePair `json:"cookies"`
 	Headers     []NameValuePair `json:"headers"`
@@ -46,15 +53,17 @@ type Request_struct struct {
 	URL         string          `json:"url"`
 }
 
-type Content_struct struct {
+// ContentStruct represents the returned content in a response
+type ContentStruct struct {
 	MIMEType string `json:"mimeType"`
 	Size     uint64 `json:"size"`
 	Text     string `json:"text"`
 }
 
-type Response_struct struct {
+// ResponseStruct represents a response in a har entry
+type ResponseStruct struct {
 	BodySize    uint64          `json:"bodySize"`
-	Content     Content_struct  `json:"content"`
+	Content     ContentStruct   `json:"content"`
 	Cookies     []NameValuePair `json:"cookies"`
 	Headers     []NameValuePair `json:"headers"`
 	Status      uint16          `json:"status"`
@@ -64,6 +73,7 @@ type Response_struct struct {
 	HeaderSize  uint16          `json:"headersSize"`
 }
 
+// Timings represent the timing for a har page
 type Timings struct {
 	Blocked uint16 `json:"blocked"`
 	DNS     uint16 `json:"dns"`
@@ -74,14 +84,15 @@ type Timings struct {
 	Receive uint16 `json:"receive"`
 }
 
-type Entries_struct struct {
-	PageRef     string          `json:"pageref"`
-	StartedTime string          `json:"startedDateTime"`
-	Time        uint16          `json:"time"`
-	Secure      string          `json:"_securityState"`
-	IP          string          `json:"serverIPAddress"`
-	Port        string          `json:"connection"`
-	Request     Request_struct  `json:"request"`
-	Response    Response_struct `json:"response"`
-	Timing      Timings         `json:"timings"`
+// EntriesStruct represents an entry in a Page
+type EntriesStruct struct {
+	PageRef     string         `json:"pageref"`
+	StartedTime string         `json:"startedDateTime"`
+	Time        uint16         `json:"time"`
+	Secure      string         `json:"_securityState"`
+	IP          string         `json:"serverIPAddress"`
+	Port        string         `json:"connection"`
+	Request     RequestStruct  `json:"request"`
+	Response    ResponseStruct `json:"response"`
+	Timing      Timings        `json:"timings"`
 }

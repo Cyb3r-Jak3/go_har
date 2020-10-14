@@ -19,7 +19,7 @@ func skiproot(jsonBlob []byte) json.RawMessage {
 	return nil
 }
 
-func parseHar(filename string) HarFile {
+func parseHar(filename string) File {
 	file, err := os.Open(filename)
 	if err != nil {
 		log.Fatal(err)
@@ -29,7 +29,7 @@ func parseHar(filename string) HarFile {
 	if berr != nil {
 		log.Fatal(berr)
 	}
-	harFile := HarFile{}
+	harFile := File{}
 	json.Unmarshal(skiproot(bytevalue), &harFile)
 	return harFile
 }
