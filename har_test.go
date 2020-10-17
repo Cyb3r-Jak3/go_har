@@ -5,7 +5,7 @@ import (
 )
 
 func TestMain(t *testing.T) {
-	har := parseHar("examples/FireFox.har")
+	har, _ := parseHar("examples/FireFox.har")
 	if har.Version != "1.2" {
 		t.Errorf("Invalid version. Wanted version 1.2 got %s", har.Version)
 	}
@@ -18,12 +18,13 @@ func TestMain(t *testing.T) {
 }
 
 func TestEntry(t *testing.T) {
-	entry := parseHar("examples/FireFox.har").Entries[0]
+	har, _ := parseHar("examples/FireFox.har")
+	entry := har.Entries[0]
 	if entry.IP != "104.27.153.17" {
 		t.Errorf("Expected IP of '104.27.153.17'. Got %s", entry.IP)
 	}
-	if entry.PageRef != "page_1" {
-		t.Errorf("Expected PageRef 'page_1'. Got %s", entry.PageRef)
+	if entry.PageID != "page_1" {
+		t.Errorf("Expected PageRef 'page_1'. Got %s", entry.PageID)
 	}
 	if entry.Port != "443" {
 		t.Errorf("Expected Port 443. Got %s", entry.Port)
@@ -40,7 +41,8 @@ func TestEntry(t *testing.T) {
 }
 
 func TestTiming(t *testing.T) {
-	timings := parseHar("examples/FireFox.har").Entries[0].Timing
+	har, _ := parseHar("examples/FireFox.har")
+	timings := har.Entries[0].Timing
 	if timings.Blocked != 1 {
 		t.Errorf("Expected Timing blocked of 1. Got %d", timings.Blocked)
 	}
@@ -66,7 +68,8 @@ func TestTiming(t *testing.T) {
 }
 
 func TestRequest(t *testing.T) {
-	request := parseHar("examples/FireFox.har").Entries[0].Request
+	har, _ := parseHar("examples/FireFox.har")
+	request := har.Entries[0].Request
 
 	if request.URL != "https://www.jwhite.network/" {
 		t.Errorf("Invalid URL. Wanted 'https://www.jwhite.network/' got %v", request.URL)
@@ -95,7 +98,8 @@ func TestRequest(t *testing.T) {
 }
 
 func TestResponse(t *testing.T) {
-	response := parseHar("examples/FireFox.har").Entries[0].Response
+	har, _ := parseHar("examples/FireFox.har")
+	response := har.Entries[0].Response
 
 	if response.Status != 200 {
 		t.Errorf("Expected Response 200. Got %d", response.Status)
@@ -130,8 +134,8 @@ func TestResponse(t *testing.T) {
 }
 
 func TestFailure(t *testing.T) {
-	har := parseHar("FireFox.har")
-	if har.Version == "1.2" {
-		t.Errorf("Invalid version. Wanted failure got %s", har.Version)
+	_, err := parseHar("FireFox.har")
+	if err.Error() != "open FireFox.har: no such file or directory" {
+		t.Errorf("Wanted unabled to open error got %s", err)
 	}
 }
