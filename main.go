@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+// HAR files have a root level log and this is used to get rid of it
 func skiproot(jsonBlob []byte) json.RawMessage {
 	var root map[string]json.RawMessage
 
