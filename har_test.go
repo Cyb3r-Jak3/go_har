@@ -23,8 +23,8 @@ func TestEntry(t *testing.T) {
 	if entry.IP != "104.27.153.17" {
 		t.Errorf("Expected IP of '104.27.153.17'. Got %s", entry.IP)
 	}
-	if entry.PageRef != "page_1" {
-		t.Errorf("Expected PageRef 'page_1'. Got %s", entry.PageRef)
+	if entry.PageID != "page_1" {
+		t.Errorf("Expected PageRef 'page_1'. Got %s", entry.PageID)
 	}
 	if entry.Port != "443" {
 		t.Errorf("Expected Port 443. Got %s", entry.Port)
