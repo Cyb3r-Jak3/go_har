@@ -135,7 +135,7 @@ func TestResponse(t *testing.T) {
 
 func TestFailure(t *testing.T) {
 	_, err := parseHar("FireFox.har")
-	if err.Error() != "open FireFox.har: The system cannot find the file specified." {
+	if err.Error() != "open FireFox.har: no such file or directory" {
 		t.Errorf("Wanted unabled to open error got %s", err)
 	}
 }
