@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestMain(t *testing.T) {
+func TestRun(t *testing.T) {
 	har, _ := parseHar("examples/FireFox.har")
 	if har.Version != "1.2" {
 		t.Errorf("Invalid version. Wanted version 1.2 got %s", har.Version)
@@ -94,6 +94,10 @@ func TestRequest(t *testing.T) {
 	}
 	if len(request.QueryString) != 0 {
 		t.Errorf("Expected Querystring length of 0. Got %d", len(request.QueryString))
+	}
+	_, err := request.CreateRequest()
+	if err != nil {
+		t.Errorf("Got Error %s when creating request", err)
 	}
 }
 
