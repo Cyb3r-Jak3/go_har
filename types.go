@@ -32,6 +32,13 @@ type NameValuePair struct {
 	Value string `json:"value"`
 }
 
+// PostData represents postdata for a RequestStruct
+type PostData struct {
+	MineType string          `json:"mineType"`
+	Params   []NameValuePair `json:"params"`
+	Text     string          `json:"text"`
+}
+
 // Page represents a page in a HarFile
 type Page struct {
 	// StartTime represents when the first request for the page was made
@@ -58,7 +65,9 @@ type RequestStruct struct {
 	HTTPVersion string `json:"httpVersion"`
 	// Method represents the HTTP method of the request
 	Method string `json:"method"`
-	// QueryString reprsents any query string that was sent in the request
+	//PostData represents the post data of the request
+	PostData
+	// QueryString represents any query string that was sent in the request
 	QueryString []NameValuePair `json:"queryString"`
 	// URL represents the URL of the request
 	URL string `json:"url"`

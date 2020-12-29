@@ -9,12 +9,12 @@ HAR is a GoLang module that parses HTTP Archive files and allows for easy access
 
 ## Requirements
 
-Go 1.11
+Go 1.11+
 
 ## Getting started
 
 **Download**  
-`go get github.com/Cyb3r-Jak3/go_har/`
+`go get -u github.com/Cyb3r-Jak3/go_har/`
 
 **Use**
 ```golang
