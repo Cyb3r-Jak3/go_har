@@ -21,7 +21,7 @@ func skiproot(jsonBlob []byte) json.RawMessage {
 	return nil
 }
 
-// CreateRequests will return a *Request for a RequestStruct
+// CreateRequest will return a *Request for a RequestStruct
 func (hareq *RequestStruct) CreateRequest() (*http.Request, error) {
 	req, err := http.NewRequest(hareq.Method, hareq.URL, strings.NewReader(hareq.PostData.Text))
 	if err != nil {

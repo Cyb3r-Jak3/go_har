@@ -31,7 +31,7 @@ type NameValuePair struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
 }
-
+// PostData represents postdata for a RequestStruct
 type PostData struct {
 	MineType string          `json:"mineType"`
 	Params   []NameValuePair `json:"params"`
