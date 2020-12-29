@@ -31,11 +31,12 @@ type NameValuePair struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
 }
+
 // PostData represents postdata for a RequestStruct
 type PostData struct {
 	MineType string          `json:"mineType"`
 	Params   []NameValuePair `json:"params"`
-	Text string `json:"text"`
+	Text     string          `json:"text"`
 }
 
 // Page represents a page in a HarFile
