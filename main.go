@@ -47,6 +47,9 @@ func parseHar(filename string) (File, error) {
 		return harFile, berr
 	}
 
-	json.Unmarshal(skiproot(bytevalue), &harFile)
+	err = json.Unmarshal(skiproot(bytevalue), &harFile)
+	if err != nil {
+		return harFile, err
+	}
 	return harFile, nil
 }

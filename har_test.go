@@ -40,29 +40,56 @@ func TestEntry(t *testing.T) {
 	}
 }
 
-func TestTiming(t *testing.T) {
+func TestTimingFirefox(t *testing.T) {
 	har, _ := parseHar("examples/FireFox.har")
 	timings := har.Entries[0].Timing
 	if timings.Blocked != 1 {
-		t.Errorf("Expected Timing blocked of 1. Got %d", timings.Blocked)
+		t.Errorf("Expected Timing blocked of 1. Got %f", timings.Blocked)
 	}
 	if timings.DNS != 0 {
-		t.Errorf("Expected Timing DNS of 0. Got %d", timings.DNS)
+		t.Errorf("Expected Timing DNS of 0. Got %f", timings.DNS)
 	}
 	if timings.Connect != 0 {
-		t.Errorf("Expected Timing connect of 0. Got %d", timings.Connect)
+		t.Errorf("Expected Timing connect of 0. Got %f", timings.Connect)
 	}
 	if timings.SSL != 0 {
-		t.Errorf("Expected Timing SSL of 0. Got %d", timings.SSL)
+		t.Errorf("Expected Timing SSL of 0. Got %f", timings.SSL)
 	}
 	if timings.Send != 0 {
-		t.Errorf("Expected Timing Send of 0. Got %d", timings.Send)
+		t.Errorf("Expected Timing Send of 0. Got %f", timings.Send)
 	}
 	if timings.Wait != 50 {
-		t.Errorf("Expected Timing Wait of 1. Got %d", timings.Wait)
+		t.Errorf("Expected Timing Wait of 1. Got %f", timings.Wait)
 	}
 	if timings.Receive != 0 {
-		t.Errorf("Expected Timing Receive of 1. Got %d", timings.Receive)
+		t.Errorf("Expected Timing Receive of 1. Got %f", timings.Receive)
+	}
+
+}
+
+func TestChrome(t *testing.T) {
+	har, _ := parseHar("examples/Chrome.har")
+	timings := har.Entries[0].Timing
+	if timings.Blocked != 3.378000000281725 {
+		t.Errorf("Expected Timing blocked of 3.378000000281725. Got %f", timings.Blocked)
+	}
+	if timings.DNS != 36.807 {
+		t.Errorf("Expected Timing DNS of 36.807. Got %f", timings.DNS)
+	}
+	if timings.SSL != 64.31899999999999 {
+		t.Errorf("Expected Timing SSL of 64.31899999999999. Got %f", timings.SSL)
+	}
+	if timings.Connect != 144.575 {
+		t.Errorf("Expected Timing connect of 144.575. Got %f", timings.Connect)
+	}
+	if timings.Send != 0.2609999999999957 {
+		t.Errorf("Expected Timing Send of 0.2609999999999957. Got %f", timings.Send)
+	}
+	if timings.Wait != 112.29399999910873 {
+		t.Errorf("Expected Timing Wait of 112.29399999910873. Got %f", timings.Wait)
+	}
+	if timings.Receive != 1.1490000015328405 {
+		t.Errorf("Expected Timing Receive of 1.1490000015328405. Got %f", timings.Receive)
 	}
 
 }
@@ -138,8 +165,23 @@ func TestResponse(t *testing.T) {
 }
 
 func TestFailure(t *testing.T) {
-	_, err := parseHar("FireFox.har")
-	if err.Error() != "open FireFox.har: no such file or directory" {
+	_, err := parseHar("examples/NotHere.har")
+	if err.Error() != "open examples/NotHere.har: no such file or directory" {
 		t.Errorf("Wanted unabled to open error got %s", err)
+	}
+}
+
+func TestBadRequest(t *testing.T) {
+	fakeHar := &RequestStruct{Method: "Fake"}
+	_, err := fakeHar.CreateRequest()
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestBadFile(t *testing.T) {
+	_, err := parseHar("examples/BadHar.har")
+	if err.Error() != "unexpected end of JSON input" {
+		t.Errorf("Expected bad JSON got %s", err)
 	}
 }
