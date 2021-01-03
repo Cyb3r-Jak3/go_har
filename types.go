@@ -6,7 +6,7 @@ type File struct {
 	Version string `json:"version"`
 	// Creator represents the creator of the archive
 	Creator NameVersionPair `json:"creator"`
-	// Browser represents the Brower that the HAR file was created for
+	// Browser represents the Browser that the HAR file was created for
 	Browser NameVersionPair `json:"browser"`
 	// Pages represents the pages in the HAR file
 	Pages []Page `json:"pages"`
@@ -22,8 +22,8 @@ type NameVersionPair struct {
 
 // PageTimingsStruct represents the timings to load a page
 type PageTimingsStruct struct {
-	ContentLoad uint16 `json:"onContentLoad"`
-	Load        uint16 `json:"onLoad"`
+	ContentLoad float64 `json:"onContentLoad"`
+	Load        float64 `json:"onLoad"`
 }
 
 // NameValuePair represents a named value pair. Used for Cookies and Headers
@@ -47,7 +47,7 @@ type Page struct {
 	ID string `json:"id"`
 	// Title represents the page title
 	Title string `json:"title"`
-	// PageTimngs represents the timings for the page
+	// PageTimings represents the timings for the page
 	PageTimings PageTimingsStruct `json:"pageTimings"`
 }
 
@@ -79,19 +79,19 @@ type ContentStruct struct {
 	MIMEType string `json:"mimeType"`
 	// Size represents the size in bites of the response content
 	Size uint64 `json:"size"`
-	// Text repersents the raw text in the response
+	// Text represents the raw text in the response
 	Text string `json:"text"`
 }
 
 // ResponseStruct represents a response in a har entry
 type ResponseStruct struct {
-	// BodySize represents the size in bits of the reponse body
+	// BodySize represents the size in bits of the response body
 	BodySize uint64 `json:"bodySize"`
 	// Content represents the content of the response
 	Content ContentStruct `json:"content"`
-	// Cookies represents the cookies in the repsonse
+	// Cookies represents the cookies in the response
 	Cookies []NameValuePair `json:"cookies"`
-	// Headers represents the headers of the reponse
+	// Headers represents the headers of the response
 	Headers []NameValuePair `json:"headers"`
 	// Status represents the status code of the response
 	Status uint16 `json:"status"`
@@ -107,13 +107,13 @@ type ResponseStruct struct {
 
 // Timings represent the timing for a har page
 type Timings struct {
-	Blocked uint16 `json:"blocked"`
-	DNS     uint16 `json:"dns"`
-	Connect uint16 `json:"connect"`
-	SSL     uint16 `json:"ssl"`
-	Send    uint16 `json:"send"`
-	Wait    uint16 `json:"wait"`
-	Receive uint16 `json:"receive"`
+	Blocked float64 `json:"blocked"`
+	DNS     float64 `json:"dns"`
+	Connect float64 `json:"connect"`
+	SSL     float64 `json:"ssl"`
+	Send    float64 `json:"send"`
+	Wait    float64 `json:"wait"`
+	Receive float64 `json:"receive"`
 }
 
 // Entry represents an entry in a Page
@@ -124,7 +124,7 @@ type Entry struct {
 	StartedTime string `json:"startedDateTime"`
 	// Time represents the time taken to complete the entry
 	Time uint16 `json:"time"`
-	// Secure repsents if the request was compelted securely
+	// Secure represents if the request was completed securely
 	Secure string `json:"_securityState"`
 	// IP represents the server IP address
 	IP string `json:"serverIPAddress"`
@@ -132,7 +132,7 @@ type Entry struct {
 	Port string `json:"connection"`
 	// Request represents the request of the entry
 	Request RequestStruct `json:"request"`
-	// Response represents the reponse of the entry
+	// Response represents the response of the entry
 	Response ResponseStruct `json:"response"`
 	// Timing represents the times of the entry load
 	Timing Timings `json:"timings"`
