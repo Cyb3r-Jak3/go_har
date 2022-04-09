@@ -5,26 +5,26 @@ on: [push]
 jobs:
   test:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        go: [ '1.15', '1.14', '1.13', '1.12', '1.11' ]
+        go: [ '1.16', '1.17', '1.18' ]
+        os: ['ubuntu-latest', 'mac-latest', 'windows-latest']
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go }}
-      - name: Lint
-        run: |
-          go get -u golang.org/x/lint/golint
-          golint -set_exit_status .
+
       - name: Vet
         run: go vet .
+
       - name: Test
-        run: go test -coverprofile=cover.out .
+        run: make test
+
       - name: Report to Deepsource
         run: |
           curl https://deepsource.io/cli | sh
-          ./bin/deepsource report --analyzer test-coverage --key go --value-file ./cover.out
+          ./bin/deepsource report --analyzer test-coverage --key go --value-file ./c.out
         env:
           DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}

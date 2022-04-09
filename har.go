@@ -33,10 +33,12 @@ func (hareq *RequestStruct) CreateRequest() (*http.Request, error) {
 	for _, header := range hareq.Headers {
 		req.Header.Add(header.Name, header.Value)
 	}
-	return req, err
+	return req, nil
 }
-func parseHar(filename string) (File, error) {
-	harFile := File{}
+
+// parseHar will return a File struct
+func parseHar(filename string) (*File, error) {
+	harFile := &File{}
 	file, err := os.Open(filename)
 	if err != nil {
 		return harFile, err
@@ -47,7 +49,7 @@ func parseHar(filename string) (File, error) {
 		return harFile, berr
 	}
 
-	err = json.Unmarshal(skiproot(bytevalue), &harFile)
+	err = json.Unmarshal(skiproot(bytevalue), harFile)
 	if err != nil {
 		return harFile, err
 	}

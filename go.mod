@@ -1,3 +1,3 @@
 module github.com/Cyb3r-Jak3/go_har
 
-go 1.11
+go 1.16

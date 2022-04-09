@@ -166,8 +166,9 @@ func TestResponse(t *testing.T) {
 
 func TestFailure(t *testing.T) {
 	_, err := parseHar("examples/NotHere.har")
-	if err.Error() != "open examples/NotHere.har: no such file or directory" {
-		t.Errorf("Wanted unabled to open error got %s", err)
+	expectedMessage := "open examples/NotHere.har: The system cannot find the file specified."
+	if err.Error() != expectedMessage {
+		t.Errorf("Wanted '%s' got '%v'", expectedMessage, err)
 	}
 }
 

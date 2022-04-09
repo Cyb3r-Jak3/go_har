@@ -1,6 +1,6 @@
 package har
 
-// File represents a HarFile with various properties
+// File represents a HarFile with its properties such as Version, Creator, Browser, Pages and Entries
 type File struct {
 	// Version represents the version of HAR
 	Version string `json:"version"`
