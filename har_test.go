@@ -167,7 +167,7 @@ func TestResponse(t *testing.T) {
 
 func TestFailure(t *testing.T) {
 	_, err := parseHar("examples/NotHere.har")
-	if ! os.IsNotExist(err) {
+	if !os.IsNotExist(err) {
 		t.Errorf("Wanted error for file not found got '%v'", err)
 	}
 }
