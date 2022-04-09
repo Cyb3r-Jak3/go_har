@@ -1,6 +1,7 @@
 package har
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -166,9 +167,9 @@ func TestResponse(t *testing.T) {
 
 func TestFailure(t *testing.T) {
 	_, err := parseHar("examples/NotHere.har")
-	expectedMessage := "open examples/NotHere.har: The system cannot find the file specified."
-	if err.Error() != expectedMessage {
-		t.Errorf("Wanted '%s' got '%v'", expectedMessage, err)
+	errorPrefix := "open examples/NotHere.har: "
+	if ! strings.HasPrefix(err.Error(), errorPrefix) {
+		t.Errorf("Wanted error messages starting with '%s' got '%v'", errorPrefix, err)
 	}
 }
 
