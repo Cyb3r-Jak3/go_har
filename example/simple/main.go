@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Cyb3r-Jak3/go_har"
+	"github.com/Cyb3r-Jak3/go_har/v2"
 )
 
 func main() {

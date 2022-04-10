@@ -20,12 +20,12 @@ This module is tested with GO versions 1.16, 1.17, 1.18. It is tested with HAR f
 
 #### Download
 
-`go get -u github.com/Cyb3r-Jak3/go_har/`
+`go get -u github.com/Cyb3r-Jak3/go_har/v2`
 
 #### Using
 
 ```golang
-import "github.com/Cyb3r-Jak3/go_har"
+import "github.com/Cyb3r-Jak3/go_har/v2"
 
 ...
 harFile, err := har.ParseHar("<filepath>")
