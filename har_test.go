@@ -17,7 +17,7 @@ func assert(t *testing.T, action string, expected, tested interface{}) {
 }
 
 func prepHarFile(t *testing.T, filepath string) *File {
-	har, err := parseHar(filepath)
+	har, err := ParseHar(filepath)
 	if err != nil {
 		t.Errorf("Error parsing %s har file: %v", filepath, err)
 	}
@@ -25,7 +25,7 @@ func prepHarFile(t *testing.T, filepath string) *File {
 }
 
 func TestFailure(t *testing.T) {
-	_, err := parseHar("examples/NotHere.har")
+	_, err := ParseHar("testdata/NotHere.har")
 	if !os.IsNotExist(err) {
 		t.Errorf("Wanted error for file not found got '%v'", err)
 	}
@@ -57,14 +57,14 @@ func TestBadRequest(t *testing.T) {
 }
 
 func TestBadFile(t *testing.T) {
-	_, err := parseHar("examples/BadHar.har")
+	_, err := ParseHar("testdata/BadHar.har")
 	if err.Error() != "unexpected end of JSON input" {
 		t.Errorf("Expected bad JSON got %s", err)
 	}
 }
 
 func TestBadJSON(t *testing.T) {
-	file, err := os.Open("examples/bad.json")
+	file, err := os.Open("testdata/bad.json")
 	if err != nil {
 		t.Errorf("Error opening bad JSON file: %v", err)
 	}

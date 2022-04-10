@@ -36,8 +36,8 @@ func (hareq *Request) CreateRequest() (*http.Request, error) {
 	return req, nil
 }
 
-// parseHar reads a har file and returns a *File
-func parseHar(filename string) (*File, error) {
+// ParseHar reads a har file and returns a *File
+func ParseHar(filename string) (*File, error) {
 	harFile := &File{}
 	file, err := os.Open(filename)
 	if err != nil {

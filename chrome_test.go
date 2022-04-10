@@ -2,7 +2,7 @@ package har
 
 import "testing"
 
-const chromeHARPath = "examples/Chrome.har"
+const chromeHARPath = "testdata/Chrome.har"
 
 func TestChromeRun(t *testing.T) {
 	har := prepHarFile(t, chromeHARPath)

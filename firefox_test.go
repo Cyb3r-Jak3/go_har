@@ -2,7 +2,7 @@ package har
 
 import "testing"
 
-const firefoxHARPath = "examples/Firefox.har"
+const firefoxHARPath = "testdata/Firefox.har"
 
 func TestFirefoxRun(t *testing.T) {
 	har := prepHarFile(t, firefoxHARPath)
