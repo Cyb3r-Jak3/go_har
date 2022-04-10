@@ -1,6 +1,6 @@
-# HAR
-![Go](https://github.com/Cyb3r-Jak3/go_har/workflows/Go/badge.svg?branch=master)
-[![Go Report Card](https://goreportcard.com/badge/github.com/Cyb3r-Jak3/go_har)](https://goreportcard.com/report/github.com/Cyb3r-Jak3/go_har)  [![GoDoc](https://godoc.org/github.com/Cyb3r-Jak3/go_har?status.svg)](https://godoc.org/github.com/Cyb3r-Jak3/go_har)
+# GO_HAR
+
+![Go](https://github.com/Cyb3r-Jak3/go_har/workflows/Go/badge.svg?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/Cyb3r-Jak3/go_har)](https://goreportcard.com/report/github.com/Cyb3r-Jak3/go_har)  [![GoDoc](https://godoc.org/github.com/Cyb3r-Jak3/go_har?status.svg)](https://godoc.org/github.com/Cyb3r-Jak3/go_har)
 
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/Cyb3r-Jak3/go_har?style=flat-square) ![GitHub](https://img.shields.io/github/license/Cyb3r-Jak3/go_har?style=flat-square)
 [![DeepSource](https://deepsource.io/gh/Cyb3r-Jak3/go_har.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/Cyb3r-Jak3/go_har/?ref=repository-badge) [![DeepSource](https://deepsource.io/gh/Cyb3r-Jak3/go_har.svg/?label=resolved+issues&show_trend=true)](https://deepsource.io/gh/Cyb3r-Jak3/go_har/?ref=repository-badge)
@@ -10,20 +10,28 @@ HAR is a GoLang module that parses HTTP Archive files and allows for easy access
 
 ## Requirements
 
-Go 1.11+
+Go 1.16+
+
+#### Support
+
+This module is tested with GO versions 1.16, 1.17, 1.18. It is tested with HAR files from [Firefox](testdata/Firefox.har) and [Chrome](testdata/Chrome.har). PRs containing HAR files from other browsers are welcome.
 
 ## Getting started
 
-**Download**  
+#### Download
+
 `go get -u github.com/Cyb3r-Jak3/go_har/`
 
-**Use**
+#### Using
+
 ```golang
 import "github.com/Cyb3r-Jak3/go_har"
 
 ...
-har, err := go_har.parseHar("<filepath>")
+harFile, err := har.ParseHar("<filepath>")
 if err != nil {
     log.Fatal(err)
 }
 ```
+
+[example](example/simple/main.go)
