@@ -2,30 +2,30 @@ package har
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"strings"
 )
 
 // HAR files have a root level log and this is used to get rid of it
-func skiproot(jsonBlob []byte) json.RawMessage {
+func skiproot(jsonBlob []byte) (json.RawMessage, error) {
 	var root map[string]json.RawMessage
 
 	if err := json.Unmarshal(jsonBlob, &root); err != nil {
-		panic(err)
+		return nil, err
 	}
 	for _, v := range root {
-		return v
+		return v, nil
 	}
-	return nil
+	return nil, nil
 }
 
-// CreateRequest will return a *Request for a RequestStruct
-func (hareq *RequestStruct) CreateRequest() (*http.Request, error) {
+// CreateRequest will return a *http.Request for a Entry.Request
+func (hareq *Request) CreateRequest() (*http.Request, error) {
 	req, err := http.NewRequest(hareq.Method, hareq.URL, strings.NewReader(hareq.PostData.Text))
 	if err != nil {
-		return req, err
+		return nil, err
 	}
 	for _, cookie := range hareq.Cookies {
 		req.AddCookie(&http.Cookie{Name: cookie.Name, Value: cookie.Value})
@@ -36,22 +36,25 @@ func (hareq *RequestStruct) CreateRequest() (*http.Request, error) {
 	return req, nil
 }
 
-// parseHar will return a File struct
+// parseHar reads a har file and returns a *File
 func parseHar(filename string) (*File, error) {
 	harFile := &File{}
 	file, err := os.Open(filename)
 	if err != nil {
-		return harFile, err
+		return nil, err
 	}
 	defer file.Close()
-	bytevalue, berr := ioutil.ReadAll(file)
-	if berr != nil {
-		return harFile, berr
-	}
-
-	err = json.Unmarshal(skiproot(bytevalue), harFile)
+	bytevalue, err := io.ReadAll(file)
 	if err != nil {
-		return harFile, err
+		return nil, err
+	}
+	message, err := skiproot(bytevalue)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal(message, harFile)
+	if err != nil {
+		return nil, err
 	}
 	return harFile, nil
 }

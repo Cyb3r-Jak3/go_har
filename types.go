@@ -20,8 +20,8 @@ type NameVersionPair struct {
 	Version string `json:"version"`
 }
 
-// PageTimingsStruct represents the timings to load a page
-type PageTimingsStruct struct {
+// PageTimings represents the timings to load a page
+type PageTimings struct {
 	ContentLoad float64 `json:"onContentLoad"`
 	Load        float64 `json:"onLoad"`
 }
@@ -32,7 +32,7 @@ type NameValuePair struct {
 	Value string `json:"value"`
 }
 
-// PostData represents postdata for a RequestStruct
+// PostData represents postdata for a Request
 type PostData struct {
 	MineType string          `json:"mineType"`
 	Params   []NameValuePair `json:"params"`
@@ -48,19 +48,19 @@ type Page struct {
 	// Title represents the page title
 	Title string `json:"title"`
 	// PageTimings represents the timings for the page
-	PageTimings PageTimingsStruct `json:"pageTimings"`
+	PageTimings PageTimings `json:"pageTimings"`
 }
 
 // RequestStruct represents a request in an Entry
-type RequestStruct struct {
+type Request struct {
 	// BodySize represents the size in bits of the request body
-	BodySize uint16 `json:"bodySize"`
+	BodySize int `json:"bodySize"`
 	// Cookies represent the cookies send in the request.
 	Cookies []NameValuePair `json:"cookies"`
 	// Headers represents the headers send in the request
 	Headers []NameValuePair `json:"headers"`
 	// HeaderSize represent the size in bites of the headers
-	HeaderSize uint16 `json:"headersSize"`
+	HeaderSize int `json:"headersSize"`
 	// HTTPVersion represents the version of HTTP used in the request
 	HTTPVersion string `json:"httpVersion"`
 	// Method represents the HTTP method of the request
@@ -74,27 +74,27 @@ type RequestStruct struct {
 }
 
 // ContentStruct represents the returned content in a response
-type ContentStruct struct {
+type Content struct {
 	// MIMETYPE represents the MIMEType in the response
 	MIMEType string `json:"mimeType"`
 	// Size represents the size in bites of the response content
-	Size uint64 `json:"size"`
+	Size int `json:"size"`
 	// Text represents the raw text in the response
 	Text string `json:"text"`
 }
 
 // ResponseStruct represents a response in a har entry
-type ResponseStruct struct {
+type Response struct {
 	// BodySize represents the size in bits of the response body
-	BodySize uint64 `json:"bodySize"`
+	BodySize int `json:"bodySize"`
 	// Content represents the content of the response
-	Content ContentStruct `json:"content"`
+	Content Content `json:"content"`
 	// Cookies represents the cookies in the response
 	Cookies []NameValuePair `json:"cookies"`
 	// Headers represents the headers of the response
 	Headers []NameValuePair `json:"headers"`
 	// Status represents the status code of the response
-	Status uint16 `json:"status"`
+	Status int `json:"status"`
 	// StatusText represents the status test of the response
 	StatusText string `json:"statusText"`
 	// HTTPVersion represents the HTTP version in the response
@@ -102,7 +102,7 @@ type ResponseStruct struct {
 	// RedirectURL represents the returned redirect URL if any
 	RedirectURL string `json:"redirectURL"`
 	// HeaderSize represents the size in bits of the response headers
-	HeaderSize uint16 `json:"headersSize"`
+	HeaderSize int `json:"headersSize"`
 }
 
 // Timings represent the timing for a har page
@@ -114,6 +114,8 @@ type Timings struct {
 	Send    float64 `json:"send"`
 	Wait    float64 `json:"wait"`
 	Receive float64 `json:"receive"`
+	// This only appears in Chrome
+	BlockedQueueing float64 `json:"_blocked_queueing"`
 }
 
 // Entry represents an entry in a Page
@@ -123,7 +125,7 @@ type Entry struct {
 	// StartedTime represents the start time of the entry
 	StartedTime string `json:"startedDateTime"`
 	// Time represents the time taken to complete the entry
-	Time uint16 `json:"time"`
+	Time float64 `json:"time"`
 	// Secure represents if the request was completed securely
 	Secure string `json:"_securityState"`
 	// IP represents the server IP address
@@ -131,9 +133,9 @@ type Entry struct {
 	// Port represents the port on the server that the connection was made to
 	Port string `json:"connection"`
 	// Request represents the request of the entry
-	Request RequestStruct `json:"request"`
+	Request Request `json:"request"`
 	// Response represents the response of the entry
-	Response ResponseStruct `json:"response"`
+	Response Response `json:"response"`
 	// Timing represents the times of the entry load
 	Timing Timings `json:"timings"`
 }
