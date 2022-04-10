@@ -9,7 +9,7 @@ import (
 
 
 func main() {
-	har, err := har.ParseHar("../../testdata/Firefox.har")
+	har, err := har.ParseHar("testdata/Firefox.har")
 	if err != nil {
 		log.Fatal(err)
 	}
