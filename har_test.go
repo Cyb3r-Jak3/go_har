@@ -16,110 +16,12 @@ func assert(t *testing.T, action string, expected, tested interface{}) {
 	}
 }
 
-func TestRun(t *testing.T) {
-	har, _ := parseHar("examples/FireFox.har")
-	assert(t, "har version", "1.2", har.Version)
-	if har.Browser.Name != "Firefox" && har.Browser.Name == har.Creator.Name {
-		t.Errorf("Invalid browser name. Wanted FireFox got %s", har.Browser.Name)
-	}
-	if har.Browser.Version != "99.0" && har.Browser.Version == har.Creator.Version {
-		t.Errorf("Invalid browser version. Wanted FireFox got %s", har.Browser.Version)
-	}
-}
-
-func TestPage(t *testing.T) {
-	har, err := parseHar("examples/FireFox.har")
+func prepHarFile(t *testing.T, filepath string) *File {
+	har, err := parseHar(filepath)
 	if err != nil {
-		t.Errorf("Error parsing har file :%v", err)
+		t.Errorf("Error parsing %s har file: %v", filepath, err)
 	}
-	assert(t, "length of har pages", 1, len(har.Pages))
-	page := har.Pages[0]
-	assert(t, "page start time", "2022-04-09T14:47:41.176-04:00", page.StartTime)
-	assert(t, "page ID", "page_1", page.ID)
-	assert(t, "page title", "Cyber Jake", page.Title)
-	assert(t, "page timings onContentLoad", float64(2035), page.PageTimings.ContentLoad)
-	assert(t, "page timings onLoad", float64(2452), page.PageTimings.Load)
-
-}
-
-func TestEntry(t *testing.T) {
-	har, err := parseHar("examples/FireFox.har")
-	if err != nil {
-		t.Errorf("Error parsing har file :%v", err)
-	}
-	entry := har.Entries[0]
-	assert(t, "entry IP", "104.22.40.104", entry.IP)
-	assert(t, "entry page ID", "page_1", entry.PageID)
-	assert(t, "entry port", "443", entry.Port)
-	assert(t, "entry secure status", "secure", entry.Secure)
-	assert(t, "entry startedTime", "2022-04-09T14:47:41.176-04:00", entry.StartedTime)
-	assert(t, "entry Time", float64(444), entry.Time)
-}
-
-func TestTimingFirefox(t *testing.T) {
-	har, err := parseHar("examples/FireFox.har")
-	if err != nil {
-		t.Errorf("Got error trying to parse firefox file: %v", err)
-	}
-	timings := har.Entries[0].Timing
-	assert(t, "firefox timings blocked", float64(0), timings.Blocked)
-	assert(t, "firefox timings DNS", float64(86), timings.DNS)
-	assert(t, "firefox timings connect", float64(12), timings.Connect)
-	assert(t, "firefox timings SSL", float64(69), timings.SSL)
-	assert(t, "firefox timings send", float64(0), timings.Send)
-	assert(t, "firefox timings wait", float64(277), timings.Wait)
-	assert(t, "firefox timings receive", float64(0), timings.Receive)
-}
-
-func TestTimingsChrome(t *testing.T) {
-	har, err := parseHar("examples/Chrome.har")
-	if err != nil {
-		t.Errorf("Got error when trying to parse chrome file: '%v'", err)
-	}
-	timings := har.Entries[0].Timing
-	assert(t, "chrome timings blocked", 2.7729999983466698, timings.Blocked)
-	assert(t, "chrome timings DNS", 78.15, timings.DNS)
-	assert(t, "chrome timings SSL", 66.09899999999999, timings.SSL)
-	assert(t, "chrome timings connect", 164.974, timings.Connect)
-	assert(t, "chrome timings send", 0.23400000000000887, timings.Send)
-	assert(t, "chrome timings wait", 396.6860000003886, timings.Wait)
-	assert(t, "chrome timings receive", 1.5050000001792796, timings.Receive)
-	assert(t, "chrome timings blocked queueing", 2.4559999983466696, timings.BlockedQueueing)
-}
-
-func TestRequest(t *testing.T) {
-	har, _ := parseHar("examples/FireFox.har")
-	request := har.Entries[0].Request
-
-	assert(t, "request URL", "https://cyberjake.xyz/", request.URL)
-	assert(t, "request cookies length", 0, len(request.Cookies))
-	assert(t, "request headers length", 12, len(request.Headers))
-	assert(t, "request method", "GET", request.Method)
-	assert(t, "request body size", 0, request.BodySize)
-	assert(t, "request http version", "HTTP/2", request.HTTPVersion)
-	assert(t, "request header size", 451, request.HeaderSize)
-	assert(t, "request query string length", 0, len(request.QueryString))
-
-	_, err := request.CreateRequest()
-	if err != nil {
-		t.Errorf("Got error '%v' when creating request", err)
-	}
-}
-
-func TestResponse(t *testing.T) {
-	har, _ := parseHar("examples/FireFox.har")
-	response := har.Entries[0].Response
-
-	assert(t, "response status code", 200, response.Status)
-	assert(t, "response status text", "OK", response.StatusText)
-	assert(t, "response HTTP version", "HTTP/2", response.HTTPVersion)
-	assert(t, "response cookies length", 0, len(response.Cookies))
-	assert(t, "response headers size", 1767, response.HeaderSize)
-	assert(t, "response body size", 7978, response.BodySize)
-	assert(t, "response redirect URL", "", response.RedirectURL)
-	assert(t, "response MIME type",  "text/html; charset=utf-8", response.Content.MIMEType)
-	assert(t, "response content text length", 19841, len(response.Content.Text))
-	assert(t, "response content size", 19844, response.Content.Size)
+	return har
 }
 
 func TestFailure(t *testing.T) {
@@ -129,11 +31,28 @@ func TestFailure(t *testing.T) {
 	}
 }
 
-func TestBadRequest(t *testing.T) {
-	fakeRquest := &Request{Method: ""}
-	_, err := fakeRquest.CreateRequest()
+func TestGoodRequest(t *testing.T) {
+	fakeRequest := &Request{Method: "GET", Cookies: []NameValuePair{{Name: "CookieName", Value: "CookieValue"}}, Headers: []NameValuePair{{Name: "HeaderName", Value: "HeaderValue"}}}
+	req, err := fakeRequest.CreateRequest()
 	if err != nil {
-		t.Error(err)
+		t.Errorf("Error creating creating good request")
+	}
+	assert(t, "create request header", "HeaderValue", req.Header.Get("HeaderName"))
+	cookie, err := req.Cookie("CookieName")
+	if err != nil {
+		t.Errorf("Error getting good request cookie")
+	}
+	if cookie == nil { // nolint:staticcheck
+		t.Errorf("Didn't find the cookie")
+	}
+	assert(t, "create request cookie", "CookieValue", cookie.Value) // nolint:staticcheck
+}
+
+func TestBadRequest(t *testing.T) {
+	fakeRequest := &Request{Method: "("}
+	_, err := fakeRequest.CreateRequest()
+	if err == nil {
+		t.Error("Wanted error when creating bad request and didn't get one")
 	}
 }
 
