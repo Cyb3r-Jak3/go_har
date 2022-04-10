@@ -22,6 +22,9 @@ jobs:
       - name: Test
         run: make test
 
+      - name: Run Simple Example
+        run: go run ./example/simple/main.go
+
       - name: Report to Deepsource
         if: ${{ runner.os == 'Linux' && env.DEEPSOURCE_DSN != null }}
         run: |
