@@ -2,14 +2,14 @@ package har
 
 import "testing"
 
-const firefoxHARPath = "examples/FireFox.har"
+const firefoxHARPath = "examples/Firefox.har"
 
 func TestFirefoxRun(t *testing.T) {
 	har := prepHarFile(t, firefoxHARPath)
 
 	assert(t, "firefox har version", "1.2", har.Version)
 	assert(t, "firefox har creator name", "Firefox", har.Browser.Name)
-	assert(t ,"firefox har creator version", "99.0", har.Creator.Version)
+	assert(t, "firefox har creator version", "99.0", har.Creator.Version)
 	assert(t, "firefox match har browser and creator name", har.Browser.Name, har.Creator.Name)
 	assert(t, "firefox match har browser and creator version", har.Browser.Version, har.Creator.Version)
 }
