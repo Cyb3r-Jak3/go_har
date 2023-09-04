@@ -9,7 +9,7 @@ import (
 )
 
 // HAR files have a root level log and this is used to get rid of it
-func skiproot(jsonBlob []byte) (json.RawMessage, error) {
+func skipRoot(jsonBlob []byte) (json.RawMessage, error) {
 	var root map[string]json.RawMessage
 
 	if err := json.Unmarshal(jsonBlob, &root); err != nil {
@@ -22,15 +22,15 @@ func skiproot(jsonBlob []byte) (json.RawMessage, error) {
 }
 
 // CreateRequest will return a *http.Request for a Entry.Request
-func (hareq *Request) CreateRequest() (*http.Request, error) {
-	req, err := http.NewRequest(hareq.Method, hareq.URL, strings.NewReader(hareq.PostData.Text))
+func (harReq *Request) CreateRequest() (*http.Request, error) {
+	req, err := http.NewRequest(harReq.Method, harReq.URL, strings.NewReader(harReq.PostData.Text))
 	if err != nil {
 		return nil, err
 	}
-	for _, cookie := range hareq.Cookies {
+	for _, cookie := range harReq.Cookies {
 		req.AddCookie(&http.Cookie{Name: cookie.Name, Value: cookie.Value})
 	}
-	for _, header := range hareq.Headers {
+	for _, header := range harReq.Headers {
 		req.Header.Add(header.Name, header.Value)
 	}
 	return req, nil
@@ -43,12 +43,17 @@ func ParseHar(filename string) (*File, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
-	bytevalue, err := io.ReadAll(file)
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(file)
+	byteValue, err := io.ReadAll(file)
 	if err != nil {
 		return nil, err
 	}
-	message, err := skiproot(bytevalue)
+	message, err := skipRoot(byteValue)
 	if err != nil {
 		return nil, err
 	}

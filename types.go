@@ -51,7 +51,7 @@ type Page struct {
 	PageTimings PageTimings `json:"pageTimings"`
 }
 
-// RequestStruct represents a request in an Entry
+// Request represents a request in an Entry
 type Request struct {
 	// BodySize represents the size in bits of the request body
 	BodySize int `json:"bodySize"`
@@ -73,7 +73,7 @@ type Request struct {
 	URL string `json:"url"`
 }
 
-// ContentStruct represents the returned content in a response
+// Content represents the returned content in a response
 type Content struct {
 	// MIMETYPE represents the MIMEType in the response
 	MIMEType string `json:"mimeType"`
@@ -83,7 +83,7 @@ type Content struct {
 	Text string `json:"text"`
 }
 
-// ResponseStruct represents a response in a har entry
+// Response represents a response in a har entry
 type Response struct {
 	// BodySize represents the size in bits of the response body
 	BodySize int `json:"bodySize"`

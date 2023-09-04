@@ -73,7 +73,7 @@ func TestBadJSON(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error reading bad json file: %v", err)
 	}
-	_, err = skiproot(bytevalue)
+	_, err = skipRoot(bytevalue)
 	if err == nil {
 		t.Errorf("Expected error but got none")
 	}
