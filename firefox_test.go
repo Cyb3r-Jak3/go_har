@@ -37,7 +37,6 @@ func TestFirefoxPage(t *testing.T) {
 	assert(t, "firefox page title", "Cyber Jake", page.Title)
 	assert(t, "firefox page timings onContentLoad", float64(2035), page.PageTimings.ContentLoad)
 	assert(t, "firefox page timings onLoad", float64(2452), page.PageTimings.Load)
-
 }
 
 func TestFirefoxEntry(t *testing.T) {

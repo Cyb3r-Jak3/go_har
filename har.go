@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-// HAR files have a root level log and this is used to get rid of it
+// HAR files have a root level log and this is used to get rid of it.
 func skipRoot(jsonBlob []byte) (json.RawMessage, error) {
 	var root map[string]json.RawMessage
 
@@ -21,7 +21,7 @@ func skipRoot(jsonBlob []byte) (json.RawMessage, error) {
 	return nil, nil
 }
 
-// CreateRequest will return a *http.Request for a Entry.Request
+// CreateRequest will return a *http.Request for an Entry.Request.
 func (harReq *Request) CreateRequest() (*http.Request, error) {
 	req, err := http.NewRequest(harReq.Method, harReq.URL, strings.NewReader(harReq.PostData.Text))
 	if err != nil {
@@ -36,7 +36,7 @@ func (harReq *Request) CreateRequest() (*http.Request, error) {
 	return req, nil
 }
 
-// ParseHar reads a har file and returns a *File
+// ParseHar reads a har file and returns a *File.
 func ParseHar(filename string) (*File, error) {
 	harFile := &File{}
 	file, err := os.Open(filename)
