@@ -9,7 +9,6 @@ func TestChromeRun(t *testing.T) {
 	assert(t, "chrome har version", "1.2", har.Version)
 	assert(t, "chrome har creator name", "WebInspector", har.Creator.Name)
 	assert(t, "chrome har creator version", "537.36", har.Creator.Version)
-
 }
 
 func TestChromePage(t *testing.T) {

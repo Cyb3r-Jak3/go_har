@@ -1,6 +1,6 @@
 package har
 
-// File represents a HarFile with its properties such as Version, Creator, Browser, Pages and Entries
+// File represents a HarFile with its properties such as Version, Creator, Browser, Pages and Entries.
 type File struct {
 	// Version represents the version of HAR
 	Version string `json:"version"`
@@ -14,32 +14,32 @@ type File struct {
 	Entries []Entry `json:"entries"`
 }
 
-// NameVersionPair represents a JSON object that has a name and a version. Used for Creator and Browser
+// NameVersionPair represents a JSON object that has a name and a version. Used for Creator and Browser.
 type NameVersionPair struct {
 	Name    string `json:"name"`
 	Version string `json:"version"`
 }
 
-// PageTimings represents the timings to load a page
+// PageTimings represents the timings to load a page.
 type PageTimings struct {
 	ContentLoad float64 `json:"onContentLoad"`
 	Load        float64 `json:"onLoad"`
 }
 
-// NameValuePair represents a named value pair. Used for Cookies and Headers
+// NameValuePair represents a named value pair. Used for Cookies and Headers.
 type NameValuePair struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
 }
 
-// PostData represents postdata for a Request
+// PostData represents postdata for a Request.
 type PostData struct {
 	MineType string          `json:"mineType"`
 	Params   []NameValuePair `json:"params"`
 	Text     string          `json:"text"`
 }
 
-// Page represents a page in a HarFile
+// Page represents a page in a HarFile.
 type Page struct {
 	// StartTime represents when the first request for the page was made
 	StartTime string `json:"startedDateTime"`
@@ -51,7 +51,7 @@ type Page struct {
 	PageTimings PageTimings `json:"pageTimings"`
 }
 
-// RequestStruct represents a request in an Entry
+// Request represents a request in an Entry.
 type Request struct {
 	// BodySize represents the size in bits of the request body
 	BodySize int `json:"bodySize"`
@@ -73,7 +73,7 @@ type Request struct {
 	URL string `json:"url"`
 }
 
-// ContentStruct represents the returned content in a response
+// Content represents the returned content in a response.
 type Content struct {
 	// MIMETYPE represents the MIMEType in the response
 	MIMEType string `json:"mimeType"`
@@ -83,7 +83,7 @@ type Content struct {
 	Text string `json:"text"`
 }
 
-// ResponseStruct represents a response in a har entry
+// Response represents a response in a har entry.
 type Response struct {
 	// BodySize represents the size in bits of the response body
 	BodySize int `json:"bodySize"`
@@ -105,7 +105,7 @@ type Response struct {
 	HeaderSize int `json:"headersSize"`
 }
 
-// Timings represent the timing for a har page
+// Timings represent the timing for a har page.
 type Timings struct {
 	Blocked float64 `json:"blocked"`
 	DNS     float64 `json:"dns"`
@@ -118,7 +118,7 @@ type Timings struct {
 	BlockedQueueing float64 `json:"_blocked_queueing"`
 }
 
-// Entry represents an entry in a Page
+// Entry represents an entry in a Page.
 type Entry struct {
 	// PageID represents the page ID of the entry
 	PageID string `json:"pageref"`
