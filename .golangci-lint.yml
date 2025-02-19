@@ -1,12 +1,12 @@
 run:
-  skip-dirs-use-default: true
-
   modules-download-mode: readonly
+
+issues:
+  exclude-dirs-use-default: true
 
 linters:
   enable:
     - staticcheck
-    - exportloopref
     - dupl
     - govet
     - goconst
@@ -23,7 +23,6 @@ linters:
     - goprintffuncname
     - gosimple
     - gocyclo
-    - exportloopref
     - goimports
     - misspell
     - godot
@@ -33,4 +32,5 @@ linters:
     - govet
 
 output:
-  format: colored-line-number
+  formats:
+    - format: colored-line-number
