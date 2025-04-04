@@ -23,7 +23,7 @@ func skipRoot(jsonBlob []byte) (json.RawMessage, error) {
 
 // CreateRequest will return a *http.Request for an Entry.Request.
 func (harReq *Request) CreateRequest() (*http.Request, error) {
-	req, err := http.NewRequest(harReq.Method, harReq.URL, strings.NewReader(harReq.PostData.Text))
+	req, err := http.NewRequest(harReq.Method, harReq.URL, strings.NewReader(harReq.Text))
 	if err != nil {
 		return nil, err
 	}

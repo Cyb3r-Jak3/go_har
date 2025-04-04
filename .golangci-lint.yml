@@ -1,36 +1,45 @@
+version: "2"
 run:
   modules-download-mode: readonly
-
-issues:
-  exclude-dirs-use-default: true
-
-linters:
-  enable:
-    - staticcheck
-    - dupl
-    - govet
-    - goconst
-    - tenv
-    - ineffassign
-    - bodyclose
-    - gosec
-    - prealloc
-    - unused
-    - gofmt
-    - revive
-    - stylecheck
-    - whitespace
-    - goprintffuncname
-    - gosimple
-    - gocyclo
-    - goimports
-    - misspell
-    - godot
-    - reassign
-    - unconvert
-    - nilerr
-    - govet
-
 output:
   formats:
-    - format: colored-line-number
+    text:
+      path: stdout
+linters:
+  enable:
+    - bodyclose
+    - dupl
+    - goconst
+    - gocyclo
+    - godot
+    - goprintffuncname
+    - gosec
+    - misspell
+    - nilerr
+    - prealloc
+    - reassign
+    - revive
+    - staticcheck
+    - unconvert
+    - whitespace
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
